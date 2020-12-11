@@ -7,23 +7,24 @@
 </head>
 <body>
     <div class="Head"><h1>Firebase Real Time Database</h1></div>
+    
     <table>
         <tr>
             <td>User ID:</td>
-            <td><input type = "text" id = "uId"/></td>
+            <td><input type = "text" id = "uId" required></td>
         </tr>
         <tr>
             <td>User Name:</td>
-            <td><input type = "text" id = "uname"/></td>
+            <td><input type = "text" id = "uname"></td>
         </tr>
         <tr>
-            <td>Email ID:</td><td><input type = "text" id = "email"/></td>
+            <td>Email ID:</td><td><input type = "text" id = "email"></td>
         </tr>
         <tr>
-            <td>DOB:</td><td><input type = "date" id = "dob"/></td>
+            <td>DOB:</td><td><input type = "date" id = "dob"></td>
         </tr>
         <tr>
-            <td><button id="createBtn" onclick="createUser()">Create</button></td>
+            <td><button id="createBtn"  onclick="createUser()">Create</button></td>
             <td><button id="deleteBtn" onclick="deleteUser()">Delete</button></td>
         </tr>
         <tr>
@@ -31,6 +32,7 @@
             <td><button id="readBtn" onclick="readUser()">Read</button></td>
         </tr>       
     </table>
+
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-app.js"></script>

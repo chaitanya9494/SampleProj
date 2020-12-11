@@ -10,6 +10,13 @@ const readBtn = document.getElementById('readBtn');
 const database = firebase.database();
 
 function createUser(){
+
+    if(userId.value == ''|| userName.value == '' || emailId.value=='' ||dob.value == '')
+    {
+        alert("Please Enter All Values");
+        return;
+    }
+
     database.ref('/users/'+userId.value).set({
         userid : userId.value,
         user_name : userName.value,
@@ -20,11 +27,23 @@ function createUser(){
 };
 
 function deleteUser(){
+
+    if(userId.value == '')
+    {
+        alert("Please Enter ID");
+        return;
+    }
     database.ref('/users/'+userId.value).remove();
     console.log("User Deleted Successfully");
 }
 
 function updateUser(){
+
+    if(userId.value == '')
+    {
+        alert("Please Enter ID");
+        return;
+    }
     database.ref('/users/'+userId.value).update({
         user_name : userName.value,
         email : emailId.value,
@@ -46,4 +65,7 @@ function readUser(){
         });
     }
 )
-)}
+    
+)
+console.log("User Read");}
+
