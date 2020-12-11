@@ -11,6 +11,7 @@ const database = firebase.database();
 
 function createUser(){
     database.ref('/users/'+userId.value).set({
+        userid : userId.value,
         user_name : userName.value,
         email : emailId.value,
         DOB : dob.value,
@@ -32,17 +33,17 @@ function updateUser(){
     console.log("User Updated Successfully");
 }
 
-/*function readUser(){
-    database.ref('/users/'+userId.value).on('child_added',(snap)=>{
-        console.log(snap.val().uName+":"+snap.val().email);
+function readUser(){
+    database.ref('/users/').once('value',(function(snapshot){
+        snapshot.forEach(function(users){
+            
+            var name = users.val().user_name;
+            var id = users.val().userid;
+            var db = users.val().DOB;
+            var mail = users.val().email;
 
-        $('#userList').append(
-        
-            <tr>
-                <td>${snap.val().uname}</td>
-                <td>${snap.val().email}</td>
-            </tr>
-
-            )
-    });
-}*/
+            console.log("Name: "+name+" ID: "+id+" DOB: "+db+" Mail: "+mail);
+        });
+    }
+)
+)}
