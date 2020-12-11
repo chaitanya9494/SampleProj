@@ -52,20 +52,25 @@ function updateUser(){
     console.log("User Updated Successfully");
 }
 
-function readUser(){
-    database.ref('/users/').once('value',(function(snapshot){
-        snapshot.forEach(function(users){
-            
+function readUser() {
+    database.ref('/users/').once('value', (function (snapshot) {
+        snapshot.forEach(function (users) {
             var name = users.val().user_name;
             var id = users.val().userid;
             var db = users.val().DOB;
             var mail = users.val().email;
-
-            console.log("Name: "+name+" ID: "+id+" DOB: "+db+" Mail: "+mail);
+            var content="";
+            console.log("Name: " + name + " ID: " + id + " DOB: " + db + " Mail: " + mail);
+            content+='<tr>';
+            content+='<td>'+name+'</td>';
+            content+='<td>'+mail+'</td>';
+            content+='<td>'+id+'</td>';
+            content+='<td>'+db+'</td>';
+            content+='</tr>';
+            $('table').append(content);
         });
     }
-)
-    
-)
-console.log("User Read");}
+    )
+    )
+    console.log("User Read");}
 
