@@ -103,13 +103,3 @@ function readUser() {
     console.log("User Read");}
 
 
-function valExists(){
-    database.ref("users").orderByChild("userid").equalTo(userId.value).once("value",snapshot => {
-        if (snapshot.exists()){
-          return true;
-        }
-        else{
-            return false;
-        }
-    });
-}
