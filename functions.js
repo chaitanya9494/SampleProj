@@ -101,5 +101,57 @@ function readUser() {
     )
     )
     console.log("User Read");}
-
-
+function sendEmail() {
+    database.ref('/users/').once('value', (function (snapshot) {
+        snapshot.forEach(function (users) {
+            var list = "";
+            let name = users.val().user_name;
+            let db = new Date(users.val().DOB);
+            let today = new Date();
+            let mail = users.val().email;
+            let daystogo = new Date(today.getFullYear(), db.getMonth(), db.getDate());
+            if (today.getMonth() == db.getMonth() && today.getDate() > db.getDate()) 
+            {
+                daystogo.setFullYear(daystogo.getFullYear() + 1);
+            }
+            let one_day = 1000 * 60 * 60 * 24;
+            let result = Math.ceil((daystogo.getTime() - today.getTime()) / (one_day));
+            let numdaystogo = Math.abs(result);
+            if (numdaystogo == 0) {
+                Email.send({
+                    Host: "smtp.gmail.com",
+                    Username: 'trctt2020@gmail.com',
+                    Password: "ctttr2020$",
+                    To: mail,
+                    From: 'trctt2020@gmail.com',
+                    Subject: `Hey ${name},Greetings from ThomsonReuters`,
+                    // Cc: 'ctt@thomsonreuters.com',
+                    Body: `Hi ${name}, We Wish you a many many happy returns of the day. May God bless you with health, wealth and prosperity in your life. HAPPY BIRTHDAY`,
+                })
+            }
+        });
+    }))
+}
+function havingbirthdaytoday() {
+    database.ref('/users/').once('value', (function (snapshot) {
+        snapshot.forEach(function (users) {
+            var list = "";
+            let name = users.val().user_name;
+            let db = new Date(users.val().DOB);
+            let today = new Date();
+            let daystogo = new Date(today.getFullYear(), db.getMonth(), db.getDate());
+            if (today.getMonth() == db.getMonth() && today.getDate() > db.getDate()) {
+                daystogo.setFullYear(daystogo.getFullYear() + 1);
+            }
+            let one_day = 1000 * 60 * 60 * 24;
+            let result = Math.ceil((daystogo.getTime() - today.getTime()) / (one_day));
+            let numdaystogo = Math.abs(result);
+            if (numdaystogo == 0) {
+                list += '<tr>';
+                list += '<td>' + '<h1>' + name + '</h1>' + '</td>';
+                list += '</tr>';
+                $('table').append(list);
+            }
+        });
+    }))
+}
