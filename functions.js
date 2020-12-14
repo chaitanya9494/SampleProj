@@ -10,20 +10,29 @@ const readBtn = document.getElementById('readBtn');
 const database = firebase.database();
 
 function createUser(){
-
+    
     if(userId.value == ''|| userName.value == '' || emailId.value=='' ||dob.value == '')
     {
         alert("Please Enter All Values");
         return;
     }
 
-    database.ref('/users/'+userId.value).set({
-        userid : userId.value,
-        user_name : userName.value,
-        email : emailId.value,
-        DOB : dob.value,
+    database.ref("users").orderByChild("userid").equalTo(userId.value).once("value",snapshot => {
+        if (snapshot.exists()){
+          alert("User Already Exists!!");
+        }
+        else{
+            database.ref('/users/'+userId.value).set({
+                userid : userId.value,
+                user_name : userName.value,
+                email : emailId.value,
+                DOB : dob.value,
+            });
+        
+            console.log("User Created Successfully!!");
+        }
     });
-    console.log("User Created Successfully");
+
 };
 
 function deleteUser(){
@@ -33,8 +42,16 @@ function deleteUser(){
         alert("Please Enter ID");
         return;
     }
-    database.ref('/users/'+userId.value).remove();
-    console.log("User Deleted Successfully");
+    
+    database.ref("users").orderByChild("userid").equalTo(userId.value).once("value",snapshot => {
+        if (snapshot.exists()){
+            database.ref('/users/'+userId.value).remove();
+            console.log("User Deleted Successfully");
+        }
+        else{        
+            alert("User Does Not Exist!!");
+        }
+    });
 }
 
 function updateUser(){
@@ -44,16 +61,27 @@ function updateUser(){
         alert("Please Enter ID");
         return;
     }
-    database.ref('/users/'+userId.value).update({
-        user_name : userName.value,
-        email : emailId.value,
-        DOB : dob.value,
+    
+    database.ref("users").orderByChild("userid").equalTo(userId.value).once("value",snapshot => {
+        if (snapshot.exists()){
+            database.ref('/users/'+userId.value).update({
+                user_name : userName.value,
+                email : emailId.value,
+                DOB : dob.value,
+            });
+            console.log("User Updated Successfully");
+        }
+        else{        
+            alert("User Does Not Exist!!");
+        }
     });
-    console.log("User Updated Successfully");
+
+    
 }
 
 function readUser() {
-    database.ref('/users/').once('value', (function (snapshot) {
+    
+    database.ref('/users/').orderByChild("DOB").once('value', (function (snapshot) {
         snapshot.forEach(function (users) {
             var name = users.val().user_name;
             var id = users.val().userid;
@@ -74,3 +102,14 @@ function readUser() {
     )
     console.log("User Read");}
 
+
+function valExists(){
+    database.ref("users").orderByChild("userid").equalTo(userId.value).once("value",snapshot => {
+        if (snapshot.exists()){
+          return true;
+        }
+        else{
+            return false;
+        }
+    });
+}
